@@ -1,0 +1,15 @@
+{
+  "name": "rental_platform",
+  "version": "1.0.0",
+  "description": "这是一个基于Django和PostgreSQL开发的共享经济租赁平台最小可行产品(MVP)，核心特点是利用区块链技术建立和增强房东与租客之间的信任关系。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "hardhat": "^2.24.0"
+  }
+}

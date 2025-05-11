@@ -1,0 +1,202 @@
+{% extends 'blockchain_rental/base.html' %}
+
+{% block title %}区块链浏览器 - 租赁平台{% endblock %}
+
+{% block nav_explorer %}active{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-box me-2"></i>智能合约信息</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>合约地址:</strong> <a href="https://sepolia.etherscan.io/address/{{ contract_address }}" target="_blank" class="text-break">{{ contract_address }}</a></p>
+                        <p><strong>网络:</strong> Sepolia测试网</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>已注册房源数量:</strong> <span id="property-count">加载中...</span></p>
+                        <p><strong>已创建预订数量:</strong> <span id="booking-count">加载中...</span></p>
+                    </div>
+                </div>
+                <div class="alert alert-info">
+                    <i class="bi bi-info-circle me-2"></i> 此页面实时显示区块链上的交易和事件，展示平台上的所有活动。
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ul class="nav nav-tabs mb-4" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="events-tab" data-bs-toggle="tab" data-bs-target="#events" type="button" role="tab">最新事件</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="users-tab" data-bs-toggle="tab" data-bs-target="#users" type="button" role="tab">用户注册</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="properties-tab" data-bs-toggle="tab" data-bs-target="#properties" type="button" role="tab">房源注册</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="bookings-tab" data-bs-toggle="tab" data-bs-target="#bookings" type="button" role="tab">预订管理</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="reviews-tab" data-bs-toggle="tab" data-bs-target="#reviews" type="button" role="tab">评价记录</button>
+    </li>
+</ul>
+
+<div class="tab-content" id="myTabContent">
+    <!-- 所有事件 -->
+    <div class="tab-pane fade show active" id="events" role="tabpanel">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">所有链上事件</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>时间</th>
+                                <th>事件类型</th>
+                                <th>相关方</th>
+                                <th>详情</th>
+                                <th>交易哈希</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-events">
+                            <tr>
+                                <td colspan="5" class="text-center py-3">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 用户注册 -->
+    <div class="tab-pane fade" id="users" role="tabpanel">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">用户注册记录</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>时间</th>
+                                <th>用户地址</th>
+                                <th>用户名</th>
+                                <th>交易哈希</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-events">
+                            <tr>
+                                <td colspan="4" class="text-center py-3">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 房源注册 -->
+    <div class="tab-pane fade" id="properties" role="tabpanel">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">房源注册记录</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>时间</th>
+                                <th>房源ID</th>
+                                <th>所有者</th>
+                                <th>房源标题</th>
+                                <th>交易哈希</th>
+                            </tr>
+                        </thead>
+                        <tbody id="property-events">
+                            <tr>
+                                <td colspan="5" class="text-center py-3">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 预订管理 -->
+    <div class="tab-pane fade" id="bookings" role="tabpanel">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">预订记录</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>时间</th>
+                                <th>预订ID</th>
+                                <th>房源ID</th>
+                                <th>租户</th>
+                                <th>状态</th>
+                                <th>交易哈希</th>
+                            </tr>
+                        </thead>
+                        <tbody id="booking-events">
+                            <tr>
+                                <td colspan="6" class="text-center py-3">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 评价记录 -->
+    <div class="tab-pane fade" id="reviews" role="tabpanel">
+        <div class="card shadow-sm">
+            <div class="card-header bg-light">
+                <h5 class="mb-0">评价记录</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>时间</th>
+                                <th>房源ID</th>
+                                <th>评价人</th>
+                                <th>评分</th>
+                                <th>交易哈希</th>
+                            </tr>
+                        </thead>
+                        <tbody id="review-events">
+                            <tr>
+                                <td colspan="5" class="text-center py-3">加载中...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+{% load static %}
+<script src="{% static 'blockchain_rental/js/explorer.js' %}"></script>
+{% endblock %} 
