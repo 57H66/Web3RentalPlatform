@@ -27,7 +27,6 @@ var/
 db.sqlite3
 db.sqlite3-journal
 media/
-static/
 staticfiles/
 
 # 虚拟环境
